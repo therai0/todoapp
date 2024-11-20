@@ -1,31 +1,33 @@
-import React, { useEffect, useState } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
-import TextInput from '../components/textInput/TextInput';
-import Button from '../components/button/Button';
-import PopupBox from '../components/popup/PopupBox';
+import React, { useEffect, useState, useContext } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
+import TextInput from "../../components/textInput/TextInput";
+import Button from "../../components/button/Button";
+import PopupBox from "../../components/popup/PopupBox";
 
+// importing css module
+import Style from "./css/SignupPage.module.css";
+import { UserContext } from "../../context/userContext/UserContextProvider";
 
 // checking the pattern of name and email
 const nameRegex = /^[A-Za-z\s]+$/;
 const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-
-
 export default function SingUpPage() {
-
-  const [firstname, setFirstname] = useState('');
-  const [lastname, setLastname] = useState('');
-  const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [firstname, setFirstname] = useState("");
+  const [lastname, setLastname] = useState("");
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [clientapp, setClientApp] = useState(null);
   const [isChecked, setIschecked] = useState(false);
   const [message, setMessage] = useState(null);
   const [messageType, setMessageType] = useState("message"); //default the type of popup message is message if error update it to error
 
-
   // useNavigate hooks for navigating to another page
   const navigate = useNavigate();
+
+  // userContext
+  const { setUserid, setIsLogedIn } = useContext(UserContext);
 
   // function to get the client app name(browser name)
   const getBrowserName = () => {
@@ -33,36 +35,25 @@ export default function SingUpPage() {
 
     if (!!document.documentMode === true) {
       setClientApp("Internet Explorer");
-
     } else if (userAgent.search("firefox") > -1) {
       setClientApp("Firefox");
-
-    }
-    else if (userAgent.search("chrome") > -1) {
+    } else if (userAgent.search("chrome") > -1) {
       setClientApp("Chrome");
-
-    }
-    else if (userAgent.search("opr") > -1) {
+    } else if (userAgent.search("opr") > -1) {
       setClientApp("Opera");
-
-    }
-    else if (userAgent.search("safari") > -1) {
+    } else if (userAgent.search("safari") > -1) {
       setClientApp("Safari");
-    }
-    else {
+    } else {
       setClientApp("unknown");
     }
-  }
+  };
 
-
-  // this function check every field is fill or not 
+  // this function check every field is fill or not
   //this function  check input value is valid value or not
   const checkField = () => {
-
     // initially setting the message type to error
     setMessageType("error");
     if (!firstname || firstname.length < 5 || !nameRegex.test(firstname)) {
-
       if (!firstname) {
         setMessage("Please fill the require field");
         return false;
@@ -80,7 +71,7 @@ export default function SingUpPage() {
     if (!lastname || lastname.length < 2 || !nameRegex.test(lastname)) {
       if (!lastname) {
         setMessage("Please fill the require field");
-        return false;;
+        return false;
       }
       if (lastname.length < 2) {
         setMessage("Last name must contain at least 4 character");
@@ -90,7 +81,6 @@ export default function SingUpPage() {
         setMessage("Number and special character are not allowed in naming");
         return false;
       }
-
     }
 
     if (!username || username.length < 5) {
@@ -122,7 +112,7 @@ export default function SingUpPage() {
         return false;
       }
       if (password.length < 8) {
-        setMessage("Password must contain at least 8 character")
+        setMessage("Password must contain at least 8 character");
         return false;
       }
     }
@@ -133,18 +123,16 @@ export default function SingUpPage() {
 
     // if every cases is passed it should return true
     return true;
-  }
+  };
 
-
-  // function to fetch the data to server 
+  // function to fetch the data to server
   const fetchData = async () => {
     try {
-
       // fetching data to server
-      const res = await fetch("/api/register", {
+      const res = await fetch("/api/create", {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           firstname,
@@ -153,84 +141,83 @@ export default function SingUpPage() {
           email,
           password,
           clientapp,
-          isChecked
-        })
+          isChecked,
+        }),
       });
 
       // if res status is 409
       if (!res.ok) {
         const data = await res.json();
         throw new Error(data.message);
-      }
-      else {
+      } else {
         // res data
         const data = await res.json();
-        console.log(`Response data:${data}`);
+        setUserid(data.body.id);
+        setIsLogedIn(true);
         setMessage(data.message);
-
-        // waiting for few second 
+        // waiting for few second
         setTimeout(() => {
           navigate("/home");
-        }, 2000);
+        }, 1000);
       }
-
-
-
     } catch (err) {
       setMessage(err.message);
       setMessageType("error");
     }
-  }
+  };
 
   // function to submit form
   const handleSubmit = (e) => {
     e.preventDefault();
-    // if checkField return 
+    // if checkField return
     if (checkField()) {
       fetchData();
     }
-  }
+  };
 
   // useEffect hooks for getting client appname
   useEffect(() => {
-    document.title = "Sign up"
+    document.title = "Sign up";
     getBrowserName();
   }, []);
   return (
     <>
       {/* main container */}
-      <div>
-
+      <div className={`${Style.container}`}>
         {/* popup message */}
-        {message && <PopupBox setMessage={setMessage} type={messageType} message={message} />
-        }
+        <div>
+          {message && (
+            <PopupBox
+              setMessage={setMessage}
+              type={messageType}
+              message={message}
+            />
+          )}
+        </div>
 
         {/* container for signup form */}
-        <div className={`p-[15px] h-[100vh] w-[100%] bg-[#F3F8FF]`}>
-
+        <div className={`${Style.signupContainer}`}>
           {/* back btn */}
-          <div >
-            <NavLink to="/login" className={`opacity-[75%]`}>Back</NavLink>
+          <div>
+            <NavLink to="/login" className={`${Style.backBtn}`}>
+              Back
+            </NavLink>
           </div>
-
 
           {/* create your account */}
-          <div className={`h-[200px]  flex flex-col items-center justify-center gap-[10px]`}>
-            <h1 className={`font-bold text-[32px] opacity-[75%]`}>Sign up</h1>
-            <h1 className={` opacity-[75%]`}>Create your account</h1>
+          <div className={`${Style.headingBox}`}>
+            <h1 className={`${Style.signup}`}>Sign up</h1>
+            <h1>Create your account</h1>
           </div>
 
-
           {/* signup form */}
-          <form className={`flex flex-col gap-[20px]`}>
-
-
+          <form className={`${Style.signupForm}`}>
             {/* firstname */}
             <TextInput
               title="First name"
               value={firstname}
               setInputValue={setFirstname}
-              styleInput={`h-[45px] w-[100%] border-[1px] border-gray-300 rounded-[5px] focuse:outline-none px-[5px]`}
+              styleInput={`${Style.inputField}`}
             />
 
             {/* last name */}
@@ -238,7 +225,7 @@ export default function SingUpPage() {
               title="Last name"
               value={lastname}
               setInputValue={setLastname}
-              styleInput={`h-[45px] w-[100%] border-[1px] border-gray-300 rounded-[5px] focuse:outline-none px-[5px]`}
+              styleInput={`${Style.inputField}`}
             />
 
             {/* username */}
@@ -246,7 +233,7 @@ export default function SingUpPage() {
               title="Username"
               value={username}
               setInputValue={setUsername}
-              styleInput={`h-[45px] w-[100%] border-[1px] border-gray-300 rounded-[5px] focuse:outline-none px-[5px]`}
+              styleInput={`${Style.inputField}`}
             />
 
             {/* email */}
@@ -254,7 +241,7 @@ export default function SingUpPage() {
               title="Email"
               value={email}
               setInputValue={setEmail}
-              styleInput={`h-[45px] w-[100%] border-[1px] border-gray-300 rounded-[5px] focuse:outline-none px-[5px]`}
+              styleInput={`${Style.inputField}`}
             />
 
             {/* password */}
@@ -263,29 +250,30 @@ export default function SingUpPage() {
               type="password"
               value={password}
               setInputValue={setPassword}
-              styleInput={` flex items-center h-[50px] w-[100%] border-[1px] border-gray-300 rounded-[5px] focuse:outline-none px-[5px]`}
+              styleInput={`${Style.passwordField}`}
             />
 
             {/* check box */}
-            <div className='flex gap-[5px]'>
+            <div className={`${Style.checkBox}`}>
               <input
                 type="checkbox"
                 checked={isChecked}
                 onChange={(e) => setIschecked(e.target.checked)}
               />
-              <p className={`opacity-[75%]`}>I agree all the <span>terms and condition</span></p>
+              <p>
+                I agree all the <span>terms and condition</span>
+              </p>
             </div>
-
 
             {/* sign up btn */}
             <Button
               title="SINGUP"
               event={handleSubmit}
-              styleBtn={`h-[45px] w-[100%] rounded-[5px] bg-[#9694FF] text-[white]`}
+              styleBtn={`${Style.signupBtn}`}
             />
           </form>
         </div>
       </div>
     </>
-  )
+  );
 }

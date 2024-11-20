@@ -30,10 +30,10 @@ export default function TextInput({
                         type={isShow ? "text" : `${type}`}
                         value={value}
                         onChange={(e) => setInputValue(e.target.value)}
-                        className={`w-[90%] h-[99%] focus:outline-none px-[5px]`}
+                        className={`w-[90%] h-[99%] focus:outline-none px-[5px] rounded-[5px]`}
                         placeholder={placeholder}
                     />
-                    <div className={`flex justify-center items-center w-[10%] h-[100%] bg-[white]`}>
+                    <div className={`flex justify-center items-center w-[10%] h-[100%] bg-[white] rounded-[5px]`}>
                         {
                             isShow ? <IoEyeSharp onClick={toggleHideAndShowBtn} /> : <RiEyeCloseFill onClick={toggleHideAndShowBtn} />
                         }

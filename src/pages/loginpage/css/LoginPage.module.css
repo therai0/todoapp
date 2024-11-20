@@ -1,0 +1,117 @@
+/* css for login page */
+
+@media (max-width: 600px) {
+  /* container of login page */
+  .container {
+    height: 100vh;
+    width: 100%;
+    background-color: #f3f8ff;
+    padding: 15px 15px;
+  }
+
+  /* headingbox */
+  .headingBox {
+    height: 300px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    opacity: 0.75;
+  }
+
+  /* hi title */
+  .headingTitle {
+    font-size: 32px;
+    font-weight: bold;
+  }
+
+  /* login form */
+  .loginForm {
+    height: 500px;
+    width: 100%;
+    padding: 20px 0px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* sub title */
+  .subtitle {
+    opacity: 0.6;
+    padding: 10px 0px;
+  }
+
+  /* input field */
+  .inputField {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    width: 100%;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+    padding: 0px 5px;
+  }
+  /* focus mode */
+  .inputField:focus {
+    outline: none;
+  }
+
+  /* pasword field */
+  .passwordField {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+  }
+
+  /* forget password */
+  .forgetPassword {
+    text-align: end;
+    opacity: 0.75;
+  }
+
+  /* login btn */
+  .loginBtn {
+    width: 100%;
+    height: 50px;
+    background-color: #9694ff;
+    border-radius: 5px;
+    color: white;
+  }
+
+  /* or div */
+  .orDiv {
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+  }
+
+  /* span bar */
+  .spanBar {
+    height: 1px;
+    width: 30%;
+    background-color: #80808085;
+  }
+
+  /* signup section */
+  .signupSection {
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+  }
+  /* have account */
+  .haveAccount {
+    opacity: 0.75;
+  }
+
+  /* signup navlink */
+  .singupNavlink {
+    font-weight: bold;
+    opacity: 0.75;
+  }
+}

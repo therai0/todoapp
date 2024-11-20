@@ -2,16 +2,18 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import './App.css'
 
-import LandingPage from "./pages/LandingPage";
-import LoginPage from "./pages/LoginPage";
-import SignUpPage from "./pages/SingUpPage";
-import HomePage from "./pages/Homepage";
+import LandingPage from "./pages/landingpage/LandingPage";
+import LoginPage from "./pages/loginpage/LoginPage";
+import SignUpPage from "./pages/signuppage/SingUpPage";
+import HomePage from "./pages/homepage/Homepage";
+import UserContextProvider from "./context/userContext/UserContextProvider";
 
 function App() {
 
 
   return (
     <>
+    <UserContextProvider>
       <BrowserRouter>
         <Routes>
           <Route index element={<LandingPage />} />
@@ -21,6 +23,7 @@ function App() {
           <Route path="*" element={<p>404 not found</p>}/>
         </Routes>
       </BrowserRouter>
+      </UserContextProvider>
     </>
   )
 }

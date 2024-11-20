@@ -1,0 +1,87 @@
+/* css for sign up page */
+
+@media (max-width: 600px) {
+  /* main container of sign up page */
+  .container {
+    padding: 15px 15px;
+    background-color: #f3f8ff;
+  }
+
+  /* container for signup form */
+  .signupContainer {
+    height: 100vh;
+    width: 100%;
+  }
+
+  /* back btn navlink */
+  .backBtn {
+    opacity: 0.75;
+  }
+
+  /* creating your account heading box */
+  .headingBox {
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    opacity: 0.75;
+  }
+
+  /* heading signup */
+  .signup {
+    font-weight: bold;
+    font-size: 32px;
+  }
+
+  /*signup form */
+  .signupForm {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* input field */
+  .inputField {
+    height: 45px;
+    width: 100%;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+    padding: 0px 5px;
+  }
+  /* focus mode */
+  .inputField:focus {
+    outline: none;
+  }
+
+  /* for password field */
+  .passwordField {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    width: 100%;
+    border: 1px solid #d1d5db;
+    border-radius: 5px;
+  }
+  /* focus mode */
+  .passwordField:focus {
+    outline: none;
+  }
+
+  /* checkbox */
+  .checkBox {
+    display: flex;
+    gap: 5px;
+    opacity: 0.75;
+  }
+
+  /* signup btn */
+  .signupBtn {
+    height: 45px;
+    width: 100%;
+    border-radius: 5px;
+    background-color: #9694FF;
+    color: white;
+  }
+}
